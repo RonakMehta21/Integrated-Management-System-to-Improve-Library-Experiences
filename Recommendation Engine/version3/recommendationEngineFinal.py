@@ -18,24 +18,25 @@ from sklearn.neighbors import NearestNeighbors
 model_knn = NearestNeighbors(metric = 'cosine',algorithm = 'brute')
 model_knn.fit(books_matrix)
 
-# query_index = np.random.choice(books_pivot.shape[0])
-query_index = 21
+def recommend(q):
+    query_index = q
 
-# print(query_index)
-#print(query_index)
-#to view pivor table
-#books_pivot.iloc[query_index,:].values.reshape(1,-1)
+    distances, indices = model_knn.kneighbors(books_pivot.iloc[query_index,:].values.reshape(1,-1),n_neighbors=6)
 
-distances, indices = model_knn.kneighbors(books_pivot.iloc[query_index,:].values.reshape(1,-1),n_neighbors=6)
+    l = []
+    for i in range(0,len(distances.flatten())):
+        if i != 0:
+            # print('recommendations for {0}:\n'.format(books_pivot.index[query_index]))
+        # else:
+            # print('{0}:{1}:\n'.format(i,books_pivot.index[indices.flatten()[i]]))
+            l.append(indices.flatten()[i])
+    return print(l)
 
-#books_pivot.index[query_index]
-#      'Hide &amp; Seek'
+#pass number to this function
+#**********
+recommend(0)
 
-for i in range(0,len(distances.flatten())):
-    if i==0:
-        print('recommendations for {0}:\n'.format(books_pivot.index[query_index]))
-    else:
-        print('{0}:{1}:\n'.format(i,books_pivot.index[indices.flatten()[i]]))
+
         
 
     
