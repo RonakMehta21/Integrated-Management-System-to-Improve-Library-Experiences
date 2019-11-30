@@ -1,0 +1,48 @@
+---
+
+- name: Deploy Playbook
+  hosts: all
+  tasks:
+
+    - name: Create content directory on host
+      become: yes
+      file:
+        path: /opt/esp/my-library-app
+        state: directory
+        mode: '0644'
+
+    - name: Delete existing build dir
+      become: yes
+      file:
+        path: /opt/esp/my-library-app/build
+        state: absent
+
+    - name: Copy UI content
+      become: yes
+      synchronize:
+        src: /Users/rahuly/pythonWork/my-library-app/build
+        dest: /opt/esp/my-library-app
+
+    - name: Getting running python server process id
+      shell: ps aux | grep [a]pis.py | awk '{ print $2 }'
+      register: items
+
+    - name: Stopping the python server
+      become: yes
+      shell: "kill {{ item }}"
+      with_items: "{{ items.stdout_lines }}"
+
+    - name: Getting running gunicorn server process id
+      shell: ps aux | grep [g]unicorn | awk '{ print $2 }'
+      register: gunicornItems
+
+    - name: Stopping the gunicorn process
+      become: yes
+      shell: "kill {{ gunicornItems }}"
+      with_items: "{{ gunicornItems.stdout_lines }}"
+
+    - name: Start webserver after changing directory
+      become: yes
+      shell: nohup python apis.py </dev/null >server.log 2>&1 &
+      args:
+        chdir: /opt/esp/LMP
