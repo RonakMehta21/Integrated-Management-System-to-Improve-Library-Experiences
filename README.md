@@ -1,10 +1,15 @@
 # Integrated Management System to Improve Library Experiences
+Developed an end-to-end application having microservice architecture deployed on AWS to improve user experiences.
 
-High Level Architecture Diagram
+•	Created application using React, Flask, and MongoDB with SSO authentication providing automation, unit testing, and performance monitoring with Jenkins, Ansible, JEST, and JMeter deploying services to EC2 instances
 
-<img src="images/Architecture.png" >
+•	Enhanced application with third-party APIs, recommendation system using collaborative filtering, and routing traffic from AWS Route 53 to ELB load balancer for maximizing speed and capacity utilization
 
-Tools and Technologies Used:
+### High Level Architecture Diagram
+
+<img src="images/Architecture.png">
+
+### Tools and Technologies Used:
 1. REACT
 2. NodeJS
 3. FIREBASE SSO
